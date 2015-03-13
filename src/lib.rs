@@ -1,18 +1,34 @@
 
-pub enum AttributeValue {
-   StaticString(&'static str),
-   List(Vec<AttributeValue>)
+pub struct Attribute {
+   name: &'static str,
+   value: AttributeValue,
 }
 
-pub fn push_attribute_value(attr: &AttributeValue, render_list: &mut Vec<String>) {
-   match *attr {
-      AttributeValue::StaticString(val) => {
-         render_list.push(val.to_string())
+pub enum AttributeValue {
+   StaticString(&'static str),
+   List(Vec<AttributeValue>),
+   Boolean(bool),
+}
+
+pub fn push_attribute(attr: &Attribute, rendered: &mut String) {
+   match attr.value {
+      AttributeValue::Boolean(true) => {
+
       },
-      AttributeValue::List(ref attrs) => {
-         for inner in attrs {
-            push_attribute_value(&inner, render_list)
+      _ => {},
+   }
+}
+
+pub fn push_attribute_value(value: &AttributeValue, rendered: &mut String) {
+   match *value {
+      AttributeValue::StaticString(s) => {
+         rendered.push_str(&s)
+      },
+      AttributeValue::List(ref list) => {
+         for inner in list {
+            push_attribute_value(&inner, rendered)
          }
-      }
+      },
+      _ => {},
    }
 }

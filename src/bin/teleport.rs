@@ -3,19 +3,16 @@ extern crate teleport;
 
 use teleport::{push_attribute_value, AttributeValue};
 
+
 pub fn main() {
    let class = AttributeValue::List(vec![
       AttributeValue::StaticString("first"),
       AttributeValue::StaticString("second")
    ]);
 
-   let mut render_list = vec![];
+   let mut rendered = String::new();
 
-   push_attribute_value(&class, &mut render_list);
+   push_attribute_value(&class, &mut rendered);
 
-   for item in render_list {
-      print!("{}", item);
-   }
-
-   println!("");
+   println!("{}", rendered);
 }
