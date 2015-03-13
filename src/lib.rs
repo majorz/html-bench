@@ -1,16 +1,17 @@
-pub enum Attr {
-   Str(&'static str),
-   Vec(Vec<Attr>)
+
+pub enum AttributeValue {
+   StaticString(&'static str),
+   List(Vec<AttributeValue>)
 }
 
-pub fn render_attribute(attr: &Attr, render_list: &mut Vec<String>) {
+pub fn push_attribute_value(attr: &AttributeValue, render_list: &mut Vec<String>) {
    match *attr {
-      Attr::Str(val) => {
+      AttributeValue::StaticString(val) => {
          render_list.push(val.to_string())
       },
-      Attr::Vec(ref attrs) => {
+      AttributeValue::List(ref attrs) => {
          for inner in attrs {
-            render_attribute(&inner, render_list)
+            push_attribute_value(&inner, render_list)
          }
       }
    }
