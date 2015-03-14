@@ -1,3 +1,4 @@
+#[macro_use]
 extern crate teleport;
 
 
@@ -10,14 +11,18 @@ pub fn main() {
       AttributeValue::StaticString("second")
    ]);
 
-   let attr = Attribute {
+   let first_attr = Attribute {
       name: "class",
       value: class,
    };
 
    let mut rendered = String::new();
 
-   push_attribute(&attr, &mut rendered);
+   push_attribute(&first_attr, &mut rendered);
 
    println!("{}", rendered);
+
+   let list = attr!["id", "location"; "class", "identical"];
+
+   println!("{:?}", list);
 }
