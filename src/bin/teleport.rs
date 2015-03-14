@@ -1,6 +1,7 @@
 #[macro_use]
 extern crate teleport;
 
+use std::fmt::Write;
 
 use teleport::{push_attribute, AttributeValue, Attribute};
 
@@ -25,4 +26,18 @@ pub fn main() {
    let list = attr!["id", "location"; "class", "identical"];
 
    println!("{:?}", list);
+
+
+   let mut out = String::new();
+
+   let html_title = format!("HTML Title {}", 100).to_string();
+
+   write_html!(&mut out,
+      html[
+           head[title[html_title]]
+           body[h1["Macros are the best!"]]
+      ]
+   );
+
+   println!("{}", out);
 }
