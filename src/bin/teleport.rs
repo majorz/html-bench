@@ -1,7 +1,7 @@
 extern crate teleport;
 
 
-use teleport::{push_attribute_value, AttributeValue};
+use teleport::{push_attribute, AttributeValue, Attribute};
 
 
 pub fn main() {
@@ -10,9 +10,14 @@ pub fn main() {
       AttributeValue::StaticString("second")
    ]);
 
+   let attr = Attribute {
+      name: "class",
+      value: class,
+   };
+
    let mut rendered = String::new();
 
-   push_attribute_value(&class, &mut rendered);
+   push_attribute(&attr, &mut rendered);
 
    println!("{}", rendered);
 }

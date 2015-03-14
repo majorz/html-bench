@@ -1,7 +1,7 @@
 
 pub struct Attribute {
-   name: &'static str,
-   value: AttributeValue,
+   pub name: &'static str,
+   pub value: AttributeValue,
 }
 
 pub enum AttributeValue {
@@ -13,9 +13,18 @@ pub enum AttributeValue {
 pub fn push_attribute(attr: &Attribute, rendered: &mut String) {
    match attr.value {
       AttributeValue::Boolean(true) => {
-
+         rendered.push_str(" ");
+         rendered.push_str(attr.name);
       },
-      _ => {},
+      AttributeValue::Boolean(false) => {},
+      _ => {
+         rendered.push_str(" ");
+         rendered.push_str(attr.name);
+         rendered.push_str("=");
+         rendered.push_str("\"");
+         push_attribute_value(&attr.value, rendered);
+         rendered.push_str("\"");
+      },
    }
 }
 
