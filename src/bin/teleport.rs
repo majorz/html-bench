@@ -1,4 +1,6 @@
 #![feature(test)]
+#![allow(unused_imports)]
+#![allow(dead_code)]
 
 extern crate test;
 
@@ -8,58 +10,42 @@ extern crate teleport;
 use std::fmt::Write;
 use std::mem::replace;
 use test::Bencher;
+use std::iter::{repeat, FromIterator, IntoIterator};
+
 
 use teleport::{push_attribute, AttributeValue, Attribute};
 
-// bench: find the `BENCH_SIZE` first terms of the fibonacci sequence
-static BENCH_SIZE: usize = 20;
-
-// recursive fibonacci
-fn fibonacci(n: usize) -> u32 {
-   if n < 2 {
-      1
-   } else {
-      fibonacci(n - 1) + fibonacci(n - 2)
-   }
-}
-
-// iterative fibonacci
-struct Fibonacci {
-   curr: u32,
-   next: u32,
-}
-
-impl Iterator for Fibonacci {
-   type Item = u32;
-   fn next(&mut self) -> Option<u32> {
-      let new_next = self.curr + self.next;
-      let new_curr = replace(&mut self.next, new_next);
-
-      Some(replace(&mut self.curr, new_curr))
-   }
-}
-
-fn fibonacci_sequence() -> Fibonacci {
-   Fibonacci { curr: 1, next: 1 }
-}
-
-
-// function to benchmark must be annotated with `#[bench]`
-#[bench]
-fn recursive_fibonacci(b: &mut Bencher) {
-   // exact code to benchmark must be passed as a closure to the iter
-   // method of Bencher
-   b.iter(|| {
-      (0..BENCH_SIZE).map(fibonacci).collect::<Vec<u32>>()
-   })
-}
 
 
 #[bench]
-fn iterative_fibonacci(b: &mut Bencher) {
+fn string_concat(b: &mut Bencher) {
+
+   let mut table_contents: Vec<Vec<u32>> = Vec::new();
+   //let mut table_contents: Vec<[u32; 10]> = Vec::new();
+   for i in 0..10000 {
+      let k = i*10;
+      table_contents.push(Vec::from_iter((k..k+10)))
+      //table_contents.push([k, k+1, k+2, k+3, k+4, k+5, k+6, k+7, k+8, k+9]);
+   }
+
    b.iter(|| {
-      fibonacci_sequence().take(BENCH_SIZE).collect::<Vec<u32>>()
-   })
+      let mut result = String::new();
+      result.push_str("<table>\n");
+
+      for index in 0..10000 {//table_contents.iter() {
+         result.push_str("  <tr>\n");
+
+         for item in table_contents[index].iter() {
+            result.push_str("    <td>");
+            result.push_str(&item.to_string());
+            result.push_str("<td>\n");
+         }
+
+         result.push_str("  </tr>\n");
+      }
+
+      result.push_str("</table>");
+   });
 }
 
 
