@@ -3,11 +3,17 @@
 name = "teleport"
 version = "0.0.1"
 
+[dependencies]
+rustc-serialize = "*"
+
 [dependencies.maud]
 git = "https://github.com/lfairy/maud.git"
 
 [dependencies.maud_macros]
 git = "https://github.com/lfairy/maud.git"
+
+[dependencies.handlebars]
+git = "https://github.com/sunng87/handlebars-rust.git"
 
 [lib]
 name = "teleport"
