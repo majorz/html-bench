@@ -3,6 +3,12 @@
 name = "teleport"
 version = "0.0.1"
 
+[dependencies.maud]
+git = "https://github.com/lfairy/maud.git"
+
+[dependencies.maud_macros]
+git = "https://github.com/lfairy/maud.git"
+
 [lib]
 name = "teleport"
 

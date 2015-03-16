@@ -1,8 +1,13 @@
 #![feature(test)]
+#![feature(plugin)]
+
+#![plugin(maud_macros)]
+
 #![allow(unused_imports)]
 #![allow(dead_code)]
 
 extern crate test;
+extern crate maud;
 
 #[macro_use]
 extern crate teleport;
@@ -74,30 +79,50 @@ fn concat_vector_source(b: &mut Bencher) {
 }
 
 
+#[bench]
+fn maud_render(b: &mut Bencher) {
+   let mut table_contents: Vec<[&'static str; 10]> = Vec::new();
+   for _ in 0..1000 {
+      table_contents.push(["aa", "bb", "cc", "dd", "ee", "ff", "gg", "hh", "ii", "jj"])
+   }
+
+   b.iter(|| {
+      let markup = html! {
+         table {
+            $for row in table_contents.iter() {
+               tr {
+                  $for item in row {
+                     td $item
+                  }
+               }
+            }
+         }
+      };
+
+      markup.to_string()
+   });
+}
+
+
 fn render_table() {
    let mut table_contents: Vec<[&'static str; 10]> = Vec::new();
    for _ in 0..1000 {
       table_contents.push(["aa", "bb", "cc", "dd", "ee", "ff", "gg", "hh", "ii", "jj"])
    }
 
-   let mut result = Vec::with_capacity(36000);
-   result.push("<table>\n");
-
-   for row in table_contents.iter() {
-      result.push("  <tr>\n");
-
-      for item in row {
-         result.push("    <td>");
-         result.push(item);
-         result.push("<td>\n");
+   let markup = html! {
+      table {
+         $for row in table_contents.iter() {
+            tr {
+               $for item in row {
+                  td $item
+               }
+            }
+         }
       }
+   };
 
-      result.push("  </tr>\n");
-   }
-
-   result.push("</table>");
-
-   println!("{}", result.len())
+   println!("{}", markup.to_string())
 }
 
 
