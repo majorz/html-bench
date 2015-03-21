@@ -9,7 +9,7 @@ extern crate handlebars;
 extern crate "rustc-serialize" as serialize;
 
 #[macro_use]
-extern crate teleport;
+extern crate "html-bench" as htmlbench;
 
 
 fn render_table() {

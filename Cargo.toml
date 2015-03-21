@@ -1,6 +1,6 @@
 [package]
 
-name = "teleport"
+name = "html-bench"
 version = "0.0.1"
 
 [dependencies]
@@ -16,7 +16,7 @@ git = "https://github.com/lfairy/maud.git"
 git = "https://github.com/sunng87/handlebars-rust.git"
 
 [lib]
-name = "teleport"
+name = "html-bench"
 
 [[bin]]
-name = "teleport"
+name = "html-bench"
